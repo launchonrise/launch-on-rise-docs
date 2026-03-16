@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RISE — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:15px;scroll-behavior:smooth;}
+:root{
+  --bg:#0c0c0c;
+  --bg2:#111;
+  --bg3:#181818;
+  --bg4:#202020;
+  --border:#252525;
+  --border2:#2e2e2e;
+  --border3:#3a3a3a;
+  --text:#d8d8d8;
+  --text2:#888;
+  --text3:#444;
+  --white:#f0f0f0;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+  --sw:268px;
+  --th:52px;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--th);
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 0 0 0;
+}
+.topbar-logo{
+  display:flex;align-items:center;gap:11px;
+  text-decoration:none;
+  width:var(--sw);
+  padding:0 24px;
+  border-right:1px solid var(--border);
+  height:100%;
+  flex-shrink:0;
+}
+.logo-mark{
+  width:26px;height:26px;
+  background:#f0f0f0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;padding:6px 5px;
+  flex-shrink:0;
+}
+.logo-mark span{
+  display:block;width:14px;height:2px;background:#000;
+}
+.logo-mark span:nth-child(1){opacity:.35;}
+.logo-mark span:nth-child(2){opacity:.65;}
+.logo-mark span:nth-child(3){opacity:1;}
+.topbar-logo .wordmark{
+  font-family:var(--mono);font-size:14px;font-weight:600;
+  color:var(--white);letter-spacing:.1em;
+}
+.tab-nav{
+  display:flex;align-items:center;
+  height:100%;padding:0 20px;gap:0;
+  flex:1;overflow-x:auto;
+}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab{
+  display:flex;align-items:center;gap:7px;
+  height:100%;
+  padding:0 16px;
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  color:var(--text3);cursor:pointer;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;text-decoration:none;
+  transition:color .15s,border-color .15s;
+}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--white);border-bottom-color:var(--white);}
+.tab svg{flex-shrink:0;}
+.topbar-right{
+  display:flex;align-items:center;gap:8px;
+  padding:0 20px;margin-left:auto;flex-shrink:0;
+}
+.search-bar{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;padding:5px 12px;
+  font-family:var(--mono);font-size:12px;color:var(--text3);
+  cursor:pointer;width:210px;
+  transition:border-color .15s;
+}
+.search-bar:hover{border-color:var(--border3);}
+.search-bar .kbd{margin-left:auto;display:flex;gap:3px;}
+.search-bar .kbd span{
+  background:var(--bg4);border:1px solid var(--border3);
+  border-radius:3px;padding:1px 5px;
+  font-size:10px;color:var(--text3);
+}
+.btn-topbar{
+  display:flex;align-items:center;gap:6px;
+  background:transparent;border:1px solid var(--border2);
+  border-radius:5px;padding:5px 12px;
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  color:var(--text2);cursor:pointer;
+  transition:border-color .15s,color .15s;
+  text-decoration:none;
+}
+.btn-topbar:hover{border-color:var(--border3);color:var(--text);}
+
+/* ── LAYOUT ── */
+.layout{display:flex;padding-top:var(--th);min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;top:var(--th);left:0;
+  width:var(--sw);height:calc(100vh - var(--th));
+  overflow-y:auto;
+  border-right:1px solid var(--border);
+  background:var(--bg);
+  padding:16px 0 40px;
+  display:flex;flex-direction:column;
+}
+.sidebar::-webkit-scrollbar{width:0;}
+.sg-label{
+  padding:12px 20px 6px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);
+}
+.sl{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 20px;
+  font-family:var(--sans);font-size:13px;font-weight:400;
+  color:var(--text2);cursor:pointer;text-decoration:none;
+  transition:background .1s,color .1s;
+  border-left:2px solid transparent;
+  margin-left:0;
+}
+.sl:hover{background:var(--bg3);color:var(--text);}
+.sl.active{background:var(--bg3);color:var(--white);border-left-color:var(--white);}
+.sl svg{opacity:.4;flex-shrink:0;}
+.sl.active svg{opacity:.8;}
+.sidebar-footer{
+  margin-top:auto;padding:20px 20px 0;
+  border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  letter-spacing:.06em;line-height:2;
+}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sw);flex:1;display:flex;justify-content:center;}
+.content{width:100%;max-width:760px;padding:52px 64px 120px;}
+
+/* ── HERO ── */
+.hero{
+  border:1px solid var(--border2);
+  background:var(--bg2);
+  padding:44px 44px 40px;
+  margin-bottom:48px;
+  position:relative;
+  overflow:hidden;
+}
+/* fading chevrons in hero bg */
+.hero::before{
+  content:'';
+  position:absolute;
+  right:-20px;top:50%;transform:translateY(-50%);
+  width:180px;height:180px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 22px,
+      rgba(240,240,240,.025) 22px,
+      rgba(240,240,240,.025) 24px
+    );
+  pointer-events:none;
+}
+.hero-version{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-version::before{
+  content:'';display:block;
+  width:20px;height:1px;background:var(--border3);
+}
+.hero h1{
+  font-family:var(--mono);font-size:36px;font-weight:600;
+  color:var(--white);line-height:1.1;
+  margin-bottom:14px;letter-spacing:-.01em;
+}
+.hero p{
+  font-size:14.5px;color:var(--text2);
+  line-height:1.8;max-width:500px;
+  margin-bottom:28px;font-weight:300;
+}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.08em;
+  border:1px solid var(--border3);
+  padding:3px 10px;color:var(--text3);
+  background:var(--bg3);
+}
+
+/* ── SECTION HEADINGS ── */
+h2.sh{
+  font-family:var(--mono);font-size:17px;font-weight:600;
+  color:var(--white);margin:44px 0 14px;
+  letter-spacing:.01em;
+  display:flex;align-items:center;gap:12px;
+}
+h2.sh .sec-num{
+  font-size:10px;font-weight:500;color:var(--text3);
+  letter-spacing:.12em;flex-shrink:0;
+}
+h3.sub{
+  font-family:var(--sans);font-size:14px;font-weight:600;
+  color:var(--text);margin:24px 0 8px;
+}
+p.body{
+  font-size:14px;color:var(--text2);
+  line-height:1.85;margin-bottom:14px;font-weight:300;
+}
+p.body strong{color:var(--text);font-weight:500;}
+
+/* ── CALLOUT ── */
+.callout{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-left:2px solid var(--white);
+  padding:16px 20px;margin:20px 0;
+}
+.callout-label{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:6px;
+}
+.callout p{
+  font-size:13.5px;color:var(--text2);
+  line-height:1.7;margin:0;font-style:italic;
+}
+.callout p strong{color:var(--text);font-weight:500;font-style:normal;}
+.callout.dim{border-left-color:var(--border3);}
+
+/* ── TABLE ── */
+.tw{border:1px solid var(--border2);margin:20px 0;overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--bg3);border-bottom:1px solid var(--border2);}
+thead th{
+  text-align:left;padding:9px 16px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text3);
+}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--bg3);}
+tbody td{padding:9px 16px;color:var(--text2);vertical-align:top;line-height:1.6;}
+tbody td:first-child{
+  font-family:var(--mono);font-size:12px;
+  color:var(--text);font-weight:400;
+}
+
+/* ── STEP LIST ── */
+.step-list{margin:16px 0;}
+.step-item{
+  display:flex;gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.step-item:last-child{border-bottom:none;}
+.step-num{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;color:var(--text3);
+  flex-shrink:0;padding-top:3px;width:28px;
+}
+.step-title{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.step-desc{font-size:13px;color:var(--text2);line-height:1.7;font-weight:300;}
+
+/* ── UNLOCK GRID ── */
+.unlock-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border2);
+  margin:20px 0;overflow:hidden;
+}
+.unlock-card{
+  background:var(--bg2);
+  padding:18px 12px;text-align:center;
+  transition:background .15s;
+}
+.unlock-card:hover{background:var(--bg3);}
+.unlock-pct{
+  font-family:var(--mono);font-size:22px;font-weight:600;
+  color:var(--white);margin-bottom:6px;
+}
+.unlock-mcap{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;color:var(--text2);margin-bottom:4px;
+}
+.unlock-sol{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.5;}
+
+/* ── PHASE GRID ── */
+.phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border2);margin:20px 0;}
+.phase-card{background:var(--bg2);padding:20px;transition:background .15s;}
+.phase-card:hover{background:var(--bg3);}
+.phase-tag{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.phase-tag.cur{color:var(--white);}
+.phase-tag.cur::after{
+  content:'ACTIVE';
+  font-size:8px;letter-spacing:.1em;
+  border:1px solid var(--border3);
+  padding:1px 6px;color:var(--text3);
+}
+.phase-name{
+  font-family:var(--mono);font-size:13px;font-weight:600;
+  color:var(--text);margin-bottom:12px;
+}
+.phase-items{list-style:none;}
+.phase-items li{
+  font-size:12.5px;color:var(--text2);
+  padding:3px 0;display:flex;gap:8px;
+  align-items:flex-start;line-height:1.5;font-weight:300;
+}
+.phase-items li::before{
+  content:'—';color:var(--text3);
+  flex-shrink:0;font-size:11px;margin-top:2px;
+}
+
+/* ── FORMULA ── */
+.formula{
+  background:var(--bg3);border:1px solid var(--border2);
+  padding:18px 24px;margin:20px 0;
+  font-family:var(--mono);font-size:13px;
+  color:var(--text);text-align:center;letter-spacing:.04em;
+}
+
+/* ── CHECK LIST ── */
+.check-list{list-style:none;margin:14px 0;}
+.check-list li{
+  display:flex;gap:12px;font-size:13.5px;
+  color:var(--text2);padding:8px 0;
+  border-bottom:1px solid var(--border);
+  line-height:1.65;align-items:flex-start;font-weight:300;
+}
+.check-list li:last-child{border-bottom:none;}
+.check-list li::before{
+  content:'→';
+  font-family:var(--mono);
+  color:var(--text3);flex-shrink:0;
+  font-size:11px;margin-top:3px;
+}
+.check-list li strong{color:var(--text);font-weight:500;}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:44px 0;}
+
+/* ── PAGE NAV ── */
+.page-nav{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px;margin-top:64px;
+  padding-top:32px;border-top:1px solid var(--border);
+}
+.pn-btn{
+  background:var(--bg2);border:1px solid var(--border2);
+  padding:14px 18px;text-decoration:none;
+  display:flex;flex-direction:column;gap:4px;
+  transition:border-color .15s,background .15s;
+}
+.pn-btn:hover{border-color:var(--border3);background:var(--bg3);}
+.pn-btn.next{text-align:right;}
+.pn-label{
+  font-family:var(--mono);font-size:10px;
+  color:var(--text3);letter-spacing:.1em;
+}
+.pn-title{font-size:13px;font-weight:500;color:var(--text);}
+
+/* ── RIGHT TOC ── */
+.toc{
+  position:fixed;top:calc(var(--th) + 36px);right:32px;
+  width:176px;font-size:12px;
+}
+.toc-label{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;
+}
+.toc a{
+  display:block;color:var(--text3);text-decoration:none;
+  padding:4px 0 4px 12px;
+  border-left:1px solid var(--border);
+  transition:color .1s,border-color .1s;
+  line-height:1.4;font-family:var(--sans);font-size:12px;
+}
+.toc a:hover{color:var(--text2);border-left-color:var(--border3);}
+.toc a.active{color:var(--white);border-left-color:var(--white);}
+
+@media(max-width:1260px){.toc{display:none;}}
+@media(max-width:800px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .content{padding:32px 20px 60px;}
+  .unlock-grid{grid-template-columns:repeat(3,1fr);}
+  .phase-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a class="topbar-logo" href="#">
+    <div class="logo-mark"><span></span><span></span><span></span></div>
+    <span class="wordmark">RISE</span>
+  </a>
+  <nav class="tab-nav">
+    <a class="tab active" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Overview
+    </a>
+    <a class="tab" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Smart Contract
+    </a>
+    <a class="tab" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Tokenomics
+    </a>
+    <a class="tab" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Roadmap
+    </a>
+    <a class="tab" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+  </nav>
+  <div class="topbar-right">
+    <div class="search-bar">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Search...</span>
+      <span class="kbd"><span>Ctrl</span><span>K</span></span>
+    </div>
+    <a class="btn-topbar" href="#">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Community
+    </a>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sg-label">Getting Started</div>
+      <a class="sl active" href="#welcome">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Welcome to RISE
+      </a>
+      <a class="sl" href="#problem">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        The Problem
+      </a>
+    </div>
+    <div>
+      <div class="sg-label">Core Mechanics</div>
+      <a class="sl" href="#antibundle">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Anti-Bundling
+      </a>
+      <a class="sl" href="#unlock">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Supply Unlock
+      </a>
+      <a class="sl" href="#caps">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        Wallet Caps
+      </a>
+      <a class="sl" href="#fees">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Fee Structure
+      </a>
+    </div>
+    <div>
+      <div class="sg-label">Technical</div>
+      <a class="sl" href="#curve">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+        Bonding Curve
+      </a>
+      <a class="sl" href="#stack">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Tech Stack
+      </a>
+      <a class="sl" href="#security">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Security
+      </a>
+    </div>
+    <div>
+      <div class="sg-label">Roadmap</div>
+      <a class="sl" href="#roadmap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+        6-Phase Plan
+      </a>
+      <a class="sl" href="#costs">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>
+        Launch Costs
+      </a>
+      <a class="sl" href="#community">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Community
+      </a>
+    </div>
+    <div class="sidebar-footer">
+      RISE · Whitepaper v1.0<br>
+      Built on Solana · MIT License
+    </div>
+  </aside>
+
+  <!-- RIGHT TOC -->
+  <nav class="toc">
+    <div class="toc-label">On this page</div>
+    <a href="#welcome" class="active">Welcome to RISE</a>
+    <a href="#problem">The Problem</a>
+    <a href="#antibundle">Anti-Bundling</a>
+    <a href="#unlock">Supply Unlock</a>
+    <a href="#caps">Wallet Caps</a>
+    <a href="#fees">Fee Structure</a>
+    <a href="#curve">Bonding Curve</a>
+    <a href="#stack">Tech Stack</a>
+    <a href="#security">Security</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#costs">Launch Costs</a>
+    <a href="#community">Community</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="content">
+
+      <!-- HERO -->
+      <div class="hero" id="welcome">
+        <div class="hero-version">Whitepaper v1.0 &nbsp;·&nbsp; 2026</div>
+        <h1>RISE</h1>
+        <p>A fair-launch token launchpad on Solana. Built to make bundling, sniping, and whale concentration structurally impossible — enforced at the smart contract level.</p>
+        <div class="tag-row">
+          <span class="tag">SOLANA</span>
+          <span class="tag">ANTI-BUNDLING</span>
+          <span class="tag">OPEN SOURCE</span>
+          <span class="tag">ANCHOR 0.32.1</span>
+          <span class="tag">PROGRESSIVE UNLOCK</span>
+          <span class="tag">MIT LICENSE</span>
+        </div>
+      </div>
+
+      <p class="body">The current Solana memecoin launchpad landscape has one dominant platform — but it has left the door wide open for bundlers, snipers, and whale wallets to extract value from regular participants. <strong>RISE is built specifically to close those doors.</strong></p>
+      <p class="body">Every protection in RISE is enforced at the smart contract level. Not the frontend. Not an off-chain rule. The actual on-chain program code that no user, admin, or frontend can bypass.</p>
+
+      <div class="callout">
+        <div class="callout-label">Core Principle</div>
+        <p>No bots. No bundlers. No whale wallets controlling 50% of the supply on day one. Every participant gets an equal shot at every launch.</p>
+      </div>
+
+      <hr class="div" id="problem">
+      <h2 class="sh"><span class="sec-num">01</span> The Problem</h2>
+      <p class="body">Four structural issues plague every existing Solana launchpad. RISE eliminates all four at the contract level — not the UI.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-title">Bundling</div>
+            <div class="step-desc">Automated tools execute hundreds of buys in the same Solana block as a launch. A single actor acquires 40–60% of supply before any regular user can participate. The token pumps briefly as the bundler sells into demand, then collapses — leaving retail holders with near-worthless tokens.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-title">Whale Concentration</div>
+            <div class="step-desc">No existing launchpad caps how much a single wallet can hold. When one wallet controls 20–30% of a token's supply, every other holder's outcome is entirely dependent on that wallet's decision to sell.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-title">Supply Sniping</div>
+            <div class="step-desc">Bots monitor the Solana mempool and execute buys in the same block as token creation — acquiring tokens before the launch is visible to regular users. With 100% of supply available from block 0, there is no structural defence against this on existing platforms.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-title">Spam Launches</div>
+            <div class="step-desc">Near-zero deploy costs flood existing platforms with thousands of worthless tokens daily. This buries genuine projects, degrades the user experience, and trains the community to expect most launches to be low-effort or fraudulent.</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="div" id="antibundle">
+      <h2 class="sh"><span class="sec-num">02</span> Anti-Bundling System</h2>
+      <p class="body">RISE implements a two-layer mechanism that makes large coordinated buys structurally unprofitable — enforced at the program level on every transaction without exception.</p>
+
+      <h3 class="sub">Layer 1 — Per-block buy limit</h3>
+      <p class="body">Each wallet is limited to <strong>2 buy transactions per Solana block</strong> (~400ms). Even a bundler operating 100 wallets simultaneously can only accumulate a fraction of what they could on an unrestricted platform. The per-block limit is checked against the on-chain slot clock and cannot be circumvented.</p>
+
+      <h3 class="sub">Layer 2 — Launch cooldown</h3>
+      <p class="body">For the first <strong>60 seconds</strong> after a token is created, each wallet is capped at a maximum purchase of <strong>1% of total supply per transaction</strong>. The contract rejects any transaction that violates this rule — no exceptions, no admin override.</p>
+
+      <div class="callout dim">
+        <div class="callout-label">On-Chain Enforcement</div>
+        <p>Both layers are enforced by the smart contract. They cannot be bypassed by using a different frontend, calling the contract directly, or any other method.</p>
+      </div>
+
+      <hr class="div" id="unlock">
+      <h2 class="sh"><span class="sec-num">03</span> Progressive Supply Unlock</h2>
+      <p class="body">Instead of releasing 100% of supply at launch, RISE unlocks supply in tranches as market cap milestones are hit. Supply only becomes available when there is genuine community demand to support it.</p>
+
+      <div class="unlock-grid">
+        <div class="unlock-card">
+          <div class="unlock-pct">15%</div>
+          <div class="unlock-mcap">LAUNCH</div>
+          <div class="unlock-sol">0–4 SOL raised</div>
+        </div>
+        <div class="unlock-card">
+          <div class="unlock-pct">30%</div>
+          <div class="unlock-mcap">~$10K</div>
+          <div class="unlock-sol">5–14 SOL raised</div>
+        </div>
+        <div class="unlock-card">
+          <div class="unlock-pct">50%</div>
+          <div class="unlock-mcap">~$25K</div>
+          <div class="unlock-sol">15–29 SOL raised</div>
+        </div>
+        <div class="unlock-card">
+          <div class="unlock-pct">70%</div>
+          <div class="unlock-mcap">~$50K</div>
+          <div class="unlock-sol">30–59 SOL raised</div>
+        </div>
+        <div class="unlock-card">
+          <div class="unlock-pct">100%</div>
+          <div class="unlock-mcap">GRADUATE</div>
+          <div class="unlock-sol">60+ SOL raised</div>
+        </div>
+      </div>
+
+      <p class="body">Even if a bundler acquires every token in the launch tranche, they hold only <strong>15% of total supply</strong>. The resulting price spike from doing so makes acquiring further tranches economically unviable — the mechanism defeats bundling at a mathematical level.</p>
+
+      <hr class="div" id="caps">
+      <h2 class="sh"><span class="sec-num">04</span> Wallet Hold Cap — 5%</h2>
+      <p class="body">No single wallet can hold more than <strong>5% of a token's total supply</strong> at any time. This limit is enforced on every buy transaction at the program level. If a purchase would push a wallet above 5%, the transaction is automatically rejected by the contract.</p>
+      <p class="body">The developer wallet that creates a token is subject to the <strong>exact same 5% cap</strong> as every other participant. There are no special permissions, no admin overrides, no exceptions for the creator. The cap is publicly verifiable on-chain by anyone.</p>
+
+      <div class="callout dim">
+        <div class="callout-label">Design Rationale</div>
+        <p>5% is large enough for a genuine early believer to take a meaningful position. Small enough that no wallet holds a controlling stake or creates single-point price dependency for the rest of the community.</p>
+      </div>
+
+      <hr class="div" id="fees">
+      <h2 class="sh"><span class="sec-num">05</span> Fee Structure</h2>
+      <p class="body">All fees are transparent and enforced at the smart contract level. They cannot be modified by the frontend or bypassed by direct contract interaction.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Fee Type</th><th>Amount</th><th>Recipient</th></tr></thead>
+          <tbody>
+            <tr><td>deploy_fee</td><td>0.1 SOL per token</td><td>RISE treasury</td></tr>
+            <tr><td>platform_fee</td><td>0.5% per transaction</td><td>RISE treasury</td></tr>
+            <tr><td>creator_fee</td><td>0.5% per transaction</td><td>Token creator wallet</td></tr>
+            <tr><td>total_trade_fee</td><td>1.0% per buy / sell</td><td>Split above</td></tr>
+            <tr><td>graduation_fee</td><td>0.015 SOL</td><td>RISE treasury</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="body">The creator fee is a deliberate design choice — it aligns creator incentives with long-term token health. If a token generates sustained trading activity, the creator earns from every transaction. This rewards genuine projects over pump-and-dump operations.</p>
+
+      <hr class="div" id="curve">
+      <h2 class="sh"><span class="sec-num">06</span> Bonding Curve</h2>
+      <p class="body">RISE uses a <strong>constant product bonding curve</strong> — the same battle-tested mathematical model used by Uniswap and pump.fun. Price is determined entirely by supply and demand with no order books or market makers required.</p>
+
+      <div class="formula">virtual_sol_reserves × virtual_token_reserves = k</div>
+
+      <p class="body">As users buy tokens, SOL reserves increase and token reserves decrease — price rises automatically. As users sell, the reverse occurs. The curve is fully autonomous and transparent on-chain.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>total_supply</td><td>1,000,000,000 (1 billion tokens)</td></tr>
+            <tr><td>token_decimals</td><td>6 decimal places</td></tr>
+            <tr><td>initial_virtual_sol</td><td>30 SOL</td></tr>
+            <tr><td>initial_virtual_tokens</td><td>1,073,000,000</td></tr>
+            <tr><td>start_price_at_$150_sol</td><td>~$0.000028 per token</td></tr>
+            <tr><td>graduation_target</td><td>85 SOL raised via bonding curve</td></tr>
+            <tr><td>post_graduation_v1</td><td>Raydium AMM</td></tr>
+            <tr><td>post_graduation_v2</td><td>RISE Swap (native DEX — Phase 6)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout dim">
+        <div class="callout-label">Future: RISE DEX</div>
+        <p>Once RISE reaches sufficient trading volume, we will deploy RISE Swap — a native AMM DEX — and migrate graduation from Raydium to our own platform. Token holders benefit from reduced fees, tighter spreads, and full community ownership of the trading infrastructure.</p>
+      </div>
+
+      <hr class="div" id="stack">
+      <h2 class="sh"><span class="sec-num">07</span> Technical Stack</h2>
+      <p class="body">RISE is built entirely with production-grade, open-source tooling. The complete codebase is public on GitHub under the MIT license from day one.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Component</th><th>Technology</th></tr></thead>
+          <tbody>
+            <tr><td>smart_contract</td><td>Rust + Anchor 0.32.1</td></tr>
+            <tr><td>blockchain</td><td>Solana Mainnet-Beta</td></tr>
+            <tr><td>token_standard</td><td>Solana SPL Token Program</td></tr>
+            <tr><td>frontend</td><td>Next.js + Tailwind CSS</td></tr>
+            <tr><td>wallet_support</td><td>Phantom, Solflare, Backpack</td></tr>
+            <tr><td>rpc_provider</td><td>Helius</td></tr>
+            <tr><td>backend</td><td>Node.js / Express</td></tr>
+            <tr><td>database</td><td>Supabase (PostgreSQL)</td></tr>
+            <tr><td>image_storage</td><td>Pinata (IPFS)</td></tr>
+            <tr><td>frontend_hosting</td><td>Vercel</td></tr>
+            <tr><td>backend_hosting</td><td>Railway</td></tr>
+            <tr><td>dex_integration_v1</td><td>Raydium AMM</td></tr>
+            <tr><td>source_code</td><td>GitHub · Public · MIT License</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="div" id="security">
+      <h2 class="sh"><span class="sec-num">08</span> Security</h2>
+      <ul class="check-list">
+        <li><strong>On-chain enforcement.</strong> Every safety rule — wallet caps, supply locks, fee routing — is enforced by the smart contract. No bypassing via direct contract calls, alternative frontends, or any other method.</li>
+        <li><strong>Open source.</strong> The entire codebase is public on GitHub. Anyone can read, audit, fork, or contribute. Transparency is a security feature, not a liability.</li>
+        <li><strong>Full test suite.</strong> Every instruction has corresponding tests covering normal operation, error cases, and attempted bypass of safety mechanisms. Tests run on every commit via GitHub Actions CI.</li>
+        <li><strong>Devnet beta.</strong> RISE runs a full public beta on Solana devnet before any mainnet deployment. Real bugs are found and fixed before real funds are involved.</li>
+        <li><strong>Limited admin scope.</strong> The RISE admin wallet can pause individual token pools in an emergency but cannot access user funds, modify token parameters post-creation, or bypass wallet caps under any circumstance.</li>
+        <li><strong>Vanity program address.</strong> The RISE program address ends in the letters <em>rise</em> — making the contract recognizable and significantly harder to spoof with a lookalike deployment.</li>
+      </ul>
+
+      <hr class="div" id="roadmap">
+      <h2 class="sh"><span class="sec-num">09</span> Development Roadmap</h2>
+      <p class="body">RISE is built in public. Every commit is visible on GitHub. The community can track exact development progress at any time.</p>
+
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-tag cur">Phase 1</div>
+          <div class="phase-name">Foundation</div>
+          <ul class="phase-items">
+            <li>Smart contract architecture and data structures</li>
+            <li>Bonding curve implementation and math</li>
+            <li>Anti-bundling mechanisms</li>
+            <li>Progressive supply unlock logic</li>
+            <li>Buy and sell instructions with all safety checks</li>
+            <li>Deploy fee and creator fee routing</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-tag">Phase 2</div>
+          <div class="phase-name">Core Features</div>
+          <ul class="phase-items">
+            <li>Graduation instruction — auto-migrate to Raydium</li>
+            <li>Vanity address generation (CA ending in "rise")</li>
+            <li>Full test suite on devnet</li>
+            <li>Admin config instruction</li>
+            <li>Devnet public beta</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-tag">Phase 3</div>
+          <div class="phase-name">Frontend</div>
+          <ul class="phase-items">
+            <li>Token creation form with IPFS image upload</li>
+            <li>Live feed with trending and graduating filters</li>
+            <li>Individual token page with bonding curve chart</li>
+            <li>Wallet connect (Phantom, Solflare, Backpack)</li>
+            <li>Portfolio and transaction history</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-tag">Phase 4</div>
+          <div class="phase-name">Launch</div>
+          <ul class="phase-items">
+            <li>Smart contract security review</li>
+            <li>Community audit period</li>
+            <li>Mainnet deployment</li>
+            <li>Official public launch</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-tag">Phase 5</div>
+          <div class="phase-name">Growth</div>
+          <ul class="phase-items">
+            <li>Creator analytics dashboard</li>
+            <li>Limit orders and auto-sell</li>
+            <li>Mobile-optimized interface</li>
+            <li>Public API for integrations</li>
+            <li>Community governance</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-tag">Phase 6</div>
+          <div class="phase-name">RISE DEX</div>
+          <ul class="phase-items">
+            <li>Build RISE Swap — native AMM DEX</li>
+            <li>Migrate graduation from Raydium</li>
+            <li>Open to all Solana tokens</li>
+            <li>Community fee sharing</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="div" id="costs">
+      <h2 class="sh"><span class="sec-num">10</span> Launch Costs</h2>
+      <p class="body">RISE is designed to be cash-flow positive from the first token deployment, with minimal ongoing infrastructure overhead.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Item</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>mainnet_contract_deploy</td><td>~0.5 SOL · one-time</td></tr>
+            <tr><td>rpc_helius_free_tier</td><td>$0 / month</td></tr>
+            <tr><td>frontend_vercel</td><td>$0 / month</td></tr>
+            <tr><td>backend_railway</td><td>~$5 / month</td></tr>
+            <tr><td>database_supabase</td><td>$0 / month</td></tr>
+            <tr><td>ipfs_pinata</td><td>$0 / month</td></tr>
+            <tr><td>domain</td><td>~$15 / year</td></tr>
+            <tr><td>total_ongoing</td><td>~$5 / month until scale</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="div" id="community">
+      <h2 class="sh"><span class="sec-num">11</span> Community &amp; Transparency</h2>
+      <p class="body">RISE is built in public and for the community. Full visibility into the codebase, treasury, and development roadmap from day one.</p>
+
+      <ul class="check-list">
+        <li>All smart contract code is public on GitHub before mainnet launch.</li>
+        <li>The program address (ending in "rise") is published before deployment.</li>
+        <li>The treasury wallet address is public. All inflows and outflows are on-chain.</li>
+        <li>The dev wallet for any RISE-created tokens is publicly disclosed.</li>
+        <li>Fee changes require a 7-day community notice period before taking effect.</li>
+        <li>No private pre-sales. No insider allocations. No hidden wallets.</li>
+        <li>Long-term governance decisions are put to community vote.</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-label">Our Commitment</div>
+        <p>Every design decision in RISE — the anti-bundling system, the progressive supply unlock, the fee structure — was made with the community's interests as the primary constraint. The best launchpad is one the community trusts completely.</p>
+      </div>
+
+      <!-- PAGE NAV -->
+      <div class="page-nav">
+        <a class="pn-btn" href="#">
+          <div class="pn-label">Previous</div>
+          <div class="pn-title">Welcome to RISE</div>
+        </a>
+        <a class="pn-btn next" href="#">
+          <div class="pn-label">Next</div>
+          <div class="pn-title">Smart Contract</div>
+        </a>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  const sections  = document.querySelectorAll('[id]');
+  const sideLinks = document.querySelectorAll('.sl');
+  const tocLinks  = document.querySelectorAll('.toc a');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = e.target.id;
+      sideLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      tocLinks.forEach(l  => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  sections.forEach(s => obs.observe(s));
+
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
